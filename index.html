@@ -60,52 +60,6 @@
       opacity: 0.92;
     }
 
-    /* overlay gradient for readability */
-    .hero-visual-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(42,31,24,0.10) 0%,
-        rgba(42,31,24,0.55) 100%
-      );
-    }
-
-    /* logo + tagline pinned at bottom of image */
-    .hero-visual-brand {
-      position: absolute;
-      bottom: 48px;
-      left: 0;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      padding: 0 40px;
-    }
-
-    .hero-logo {
-      max-width: 260px;
-      width: 100%;
-      /* logo.png : ajoutez votre fichier logo dans le même dossier */
-    }
-
-    .hero-visual-rule {
-      width: 120px;
-      height: 1px;
-      background: var(--cream);
-      opacity: 0.5;
-    }
-
-    .hero-visual-caption {
-      font-family: 'Lora', serif;
-      font-size: clamp(12px, 1.2vw, 15px);
-      font-style: italic;
-      color: var(--cream);
-      letter-spacing: 0.08em;
-      text-align: center;
-      opacity: 0.85;
-    }
 
     /* ── RIGHT — form panel ────────────────────────────────────── */
     .hero-form-panel {
@@ -419,26 +373,11 @@
 
     <!-- Visual / catalogue cover -->
     <div class="hero-visual">
-      <!--
-        Ajoutez votre image de couverture dans ce dossier sous le nom
-        "catalogue-cover.jpg" (ou modifiez le src ci-dessous)
-      -->
       <img
-        src="catalogue-cover.jpg"
+        src="catalogue-cover.png"
         alt="Catalogue Jeanticot — pépites gastronomiques des artisans du Sud-Ouest"
         class="hero-visual-img"
       />
-      <div class="hero-visual-overlay"></div>
-
-      <div class="hero-visual-brand">
-        <!--
-          Ajoutez votre fichier logo dans ce dossier sous le nom "logo.png"
-          (ou modifiez le src ci-dessous)
-        -->
-        <img src="logo.png" alt="Jeanticot — épicurien d'origine" class="hero-logo" />
-        <div class="hero-visual-rule"></div>
-        <span class="hero-visual-caption">pépites gastronomiques des artisans du Sud-Ouest</span>
-      </div>
     </div>
 
     <!-- Form side -->
