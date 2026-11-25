@@ -168,8 +168,10 @@
       z-index: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 60px 64px 60px 80px;
+      /* Ancré en haut (et non centré) : quand le formulaire HubSpot arrive,
+         il ne peut grandir que vers le bas, le titre ne bouge pas */
+      justify-content: flex-start;
+      padding: clamp(60px, 14vh, 150px) 64px 60px 80px;
       background-color: var(--cream-light);
       overflow-y: auto;
     }
@@ -253,8 +255,11 @@
 
     .catalogue-preview-img { transition: opacity 0.25s ease; }
 
-    #hubspot-form { opacity: 0; transition: opacity 0.35s ease; }
-    #hubspot-form.ready { opacity: 1; }
+    /* Tant qu'il n'est pas prêt, le formulaire HubSpot est hors du flux
+       (il ne pousse rien) ; l'emplacement de chargement tient la place */
+    .form-stage { position: relative; }
+    #hubspot-form { position: absolute; top: 0; left: 0; right: 0; visibility: hidden; opacity: 0; transition: opacity 0.35s ease; }
+    #hubspot-form.ready { position: static; visibility: visible; opacity: 1; }
 
     .form-fallback { display: none; font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 300; color: var(--text-body); line-height: 1.7; padding: 24px; background: #fff; border: 1px solid var(--cream-dark); border-radius: 8px; }
     .form-fallback.visible { display: block; }
@@ -266,6 +271,7 @@
     }
 
     /* ── HUBSPOT OVERRIDES ─────────────────────────────── */
+    #hubspot-form fieldset { border: 0; padding: 0; margin: 0; max-width: none; }
     #hubspot-form .hs-form-field { margin-bottom: 14px; }
     #hubspot-form label { display: block; font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-body); margin-bottom: 6px; }
     #hubspot-form input[type="text"], #hubspot-form input[type="email"], #hubspot-form input[type="tel"], #hubspot-form select, #hubspot-form textarea { width: 100%; padding: 13px 16px; background: #fff; border: 1px solid var(--cream-dark); border-radius: 4px; font-family: 'Lato', sans-serif; font-size: 14px; color: var(--dark); transition: border-color 0.2s, box-shadow 0.2s; outline: none; appearance: none; }
@@ -395,6 +401,7 @@
 
         <div class="form-fields locked" id="form-fields">
 
+        <div class="form-stage">
         <!-- Emplacement affiché le temps que le formulaire HubSpot charge -->
         <div class="form-skeleton" id="form-skeleton" aria-hidden="true">
           <div class="skeleton-row">
@@ -413,6 +420,7 @@
         </p>
 
         <div id="hubspot-form"></div>
+        </div><!-- /form-stage -->
 
         </div><!-- /form-fields -->
 
