@@ -204,6 +204,46 @@
     }
     @keyframes skeleton-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
 
+    /* ── CATALOGUE CHOICE ─────────────────────────────── */
+    .catalogue-choice { border: 0; margin-bottom: 26px; }
+    .catalogue-choice legend {
+      font-family: 'Lato', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-body); margin-bottom: 10px;
+    }
+    .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .choice-card { position: relative; cursor: pointer; }
+    .choice-card input { position: absolute; opacity: 0; pointer-events: none; }
+    .choice-card-body {
+      display: flex; flex-direction: column; gap: 10px; height: 100%;
+      padding: 16px 16px 14px; background: #fff; border: 1px solid var(--cream-dark); border-radius: 6px;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s, transform 0.15s;
+    }
+    .choice-card:hover .choice-card-body { border-color: var(--terracotta); transform: translateY(-1px); }
+    .choice-card input:focus-visible + .choice-card-body { box-shadow: 0 0 0 3px rgba(178,94,52,0.25); }
+    .choice-card input:checked + .choice-card-body {
+      border-color: var(--terracotta); background: #fffaf3; box-shadow: inset 0 0 0 1px var(--terracotta);
+    }
+    .choice-head { display: flex; align-items: center; justify-content: space-between; }
+    .choice-icon svg { width: 24px; height: 24px; stroke: var(--terracotta); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .choice-check {
+      width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--cream-dark);
+      display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s;
+    }
+    .choice-check svg { width: 10px; height: 10px; stroke: var(--cream-light); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
+    .choice-card input:checked + .choice-card-body .choice-check { background: var(--terracotta); border-color: var(--terracotta); }
+    .choice-card input:checked + .choice-card-body .choice-check svg { opacity: 1; }
+    .choice-title { font-family: 'Lora', serif; font-size: 17px; font-weight: 500; color: var(--dark); line-height: 1.25; }
+    .choice-sub { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 300; color: var(--text-body); line-height: 1.45; }
+
+    .choice-hint { font-size: 12px; color: var(--terracotta); margin-top: 10px; min-height: 1em; }
+    .choice-hint.done { visibility: hidden; }
+
+    /* Form stays muted until a catalogue is chosen */
+    .form-fields { transition: opacity 0.3s ease, filter 0.3s ease; }
+    .form-fields.locked { opacity: 0.4; filter: grayscale(0.4); pointer-events: none; user-select: none; }
+
+    .catalogue-preview-img { transition: opacity 0.25s ease; }
+
     #hubspot-form { opacity: 0; transition: opacity 0.35s ease; }
     #hubspot-form.ready { opacity: 1; }
 
@@ -265,6 +305,8 @@
 
     @media (max-width: 520px) {
       .hero-form-panel { padding: 36px 20px; }
+      .choice-card-body { padding: 14px 12px 12px; }
+      .choice-title { font-size: 15px; }
       footer { padding: 24px 20px; }
     }
   </style>
@@ -306,11 +348,42 @@
           <em>réservé aux épicuriens</em>
         </h1>
         <p class="form-description">
-          Renseignez vos coordonnées ci-dessous pour recevoir notre catalogue complet directement dans votre boîte mail.
+          Choisissez le catalogue adapté à votre activité, renseignez vos coordonnées et accédez-y immédiatement.
         </p>
       </div>
 
       <div class="form-wrapper">
+
+        <fieldset class="catalogue-choice" id="catalogue-choice">
+          <legend>Vous êtes *</legend>
+          <div class="choice-grid">
+            <label class="choice-card">
+              <input type="radio" name="catalogue" value="chr" />
+              <span class="choice-card-body">
+                <span class="choice-head">
+                  <span class="choice-icon"><svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></span>
+                  <span class="choice-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+                </span>
+                <span class="choice-title">Restaurant ou hôtel</span>
+                <span class="choice-sub">Catalogue CHR</span>
+              </span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="catalogue" value="epicerie" />
+              <span class="choice-card-body">
+                <span class="choice-head">
+                  <span class="choice-icon"><svg viewBox="0 0 24 24"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"/></svg></span>
+                  <span class="choice-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+                </span>
+                <span class="choice-title">Épicerie fine</span>
+                <span class="choice-sub">Catalogue épicerie</span>
+              </span>
+            </label>
+          </div>
+          <p class="choice-hint" id="choice-hint">Sélectionnez votre activité pour accéder au formulaire.</p>
+        </fieldset>
+
+        <div class="form-fields locked" id="form-fields">
 
         <!-- Emplacement affiché le temps que le formulaire HubSpot charge -->
         <div class="form-skeleton" id="form-skeleton" aria-hidden="true">
@@ -330,13 +403,16 @@
 
         <div id="hubspot-form"></div>
 
+        </div><!-- /form-fields -->
+
         <div class="form-confirmation" id="form-confirmation">
           <div class="confirmation-icon">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
           <div class="confirmation-title">Merci pour votre intérêt !</div>
           <p class="confirmation-text">
-            Votre catalogue Jeanticot est en route. Vérifiez votre boîte mail — et vos spams si vous ne le recevez pas dans les prochaines minutes.
+            Votre <span id="confirmation-name">catalogue</span> s'ouvre dans un instant.
+            Si rien ne se passe, <a id="confirmation-link" href="#" style="color: var(--terracotta);">cliquez ici pour l'ouvrir</a>.
           </p>
         </div>
 
@@ -383,11 +459,74 @@
   ─────────────────────────────────────────────────────── -->
   <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
   <script>
+    /* ── CATALOGUES ───────────────────────────────────────
+       pdf   : URL du fichier dans HubSpot (Fichiers > « Copier l'URL »)
+       cover : image de couverture (laisser null pour garder l'actuelle)
+       value : valeur enregistrée dans la propriété HubSpot du contact
+    ─────────────────────────────────────────────────────── */
+    var CATALOGUES = {
+      chr: {
+        name:  'catalogue CHR',
+        pdf:   'A_RENSEIGNER_URL_PDF_CHR',
+        cover: null,
+        value: 'CHR'
+      },
+      epicerie: {
+        name:  'catalogue épicerie',
+        pdf:   'A_RENSEIGNER_URL_PDF_EPICERIE',
+        cover: null,
+        value: 'Épicerie'
+      }
+    };
+    // Nom interne de la propriété HubSpot (champ caché du formulaire)
+    var HUBSPOT_FIELD = 'type_de_catalogue';
+
     (function () {
       var skeleton = document.getElementById('form-skeleton');
       var hubspot  = document.getElementById('hubspot-form');
       var fallback = document.getElementById('form-fallback');
-      var ready = false;
+      var fields   = document.getElementById('form-fields');
+      var hint     = document.getElementById('choice-hint');
+      var coverImg = document.querySelector('.catalogue-preview-img');
+      var defaultCover = coverImg ? coverImg.src : null;
+      var radios   = document.querySelectorAll('input[name="catalogue"]');
+      var selected = null;
+      var ready    = false;
+
+      /* Remplit le champ caché HubSpot (formulaire rendu en React → setter natif) */
+      function syncHubspotField() {
+        if (!selected) return;
+        var input = hubspot.querySelector('input[name="' + HUBSPOT_FIELD + '"]');
+        if (!input) return;
+        var setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+        setter.call(input, CATALOGUES[selected].value);
+        input.dispatchEvent(new Event('input',  { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+
+      function select(key) {
+        if (!CATALOGUES[key]) return;
+        selected = key;
+        radios.forEach(function (r) { r.checked = (r.value === key); });
+        fields.classList.remove('locked');
+        hint.classList.add('done');
+        if (coverImg) {
+          var next = CATALOGUES[key].cover || defaultCover;
+          if (coverImg.src !== next) {
+            coverImg.style.opacity = 0;
+            setTimeout(function () { coverImg.src = next; coverImg.style.opacity = 1; }, 250);
+          }
+        }
+        syncHubspotField();
+      }
+
+      radios.forEach(function (r) {
+        r.addEventListener('change', function () { if (r.checked) select(r.value); });
+      });
+
+      // Présélection via l'URL : ?catalogue=chr ou ?catalogue=epicerie
+      var fromUrl = new URLSearchParams(window.location.search).get('catalogue');
+      if (fromUrl) select(fromUrl.toLowerCase());
 
       function showFallback() {
         if (ready) return;
@@ -405,16 +544,27 @@
         portalId: "145308514",
         formId: "87951dfd-a04d-474f-8bfb-7c4f9f9932d3",
         target: "#hubspot-form",
+        // La redirection est gérée par la page selon le catalogue choisi
+        inlineMessage: " ",
         onFormReady: function () {
           ready = true;
           clearTimeout(timeout);
           skeleton.classList.add('hidden');
           fallback.classList.remove('visible');
+          syncHubspotField();
           requestAnimationFrame(function () { hubspot.classList.add('ready'); });
         },
+        onBeforeFormSubmit: syncHubspotField,
         onFormSubmitted: function () {
-          hubspot.style.display = 'none';
+          var cat = CATALOGUES[selected] || CATALOGUES.chr;
+          document.getElementById('catalogue-choice').style.display = 'none';
+          fields.style.display = 'none';
+          document.getElementById('confirmation-name').textContent = cat.name;
+          document.getElementById('confirmation-link').href = cat.pdf;
           document.getElementById('form-confirmation').classList.add('visible');
+          if (/^https?:\/\//.test(cat.pdf)) {
+            setTimeout(function () { window.location.href = cat.pdf; }, 1500);
+          }
         }
       });
     })();
