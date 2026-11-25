@@ -193,6 +193,7 @@
 
     .form-skeleton { display: flex; flex-direction: column; gap: 22px; }
     .form-skeleton.hidden { display: none; }
+    .skeleton-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .skeleton-field { display: flex; flex-direction: column; gap: 8px; }
     .skeleton-label { width: 90px; height: 9px; border-radius: 2px; }
     .skeleton-input { height: 46px; border-radius: 4px; }
@@ -306,6 +307,7 @@
     @media (max-width: 520px) {
       .hero-form-panel { padding: 36px 20px; }
       .choice-card-body { padding: 14px 12px 12px; }
+      .skeleton-row { grid-template-columns: 1fr; gap: 22px; }
       .choice-title { font-size: 15px; }
       footer { padding: 24px 20px; }
     }
@@ -387,9 +389,10 @@
 
         <!-- Emplacement affiché le temps que le formulaire HubSpot charge -->
         <div class="form-skeleton" id="form-skeleton" aria-hidden="true">
-          <div class="skeleton-field"><div class="skeleton-label"></div><div class="skeleton-input"></div></div>
-          <div class="skeleton-field"><div class="skeleton-label"></div><div class="skeleton-input"></div></div>
-          <div class="skeleton-field"><div class="skeleton-label"></div><div class="skeleton-input"></div></div>
+          <div class="skeleton-row">
+            <div class="skeleton-field"><div class="skeleton-label"></div><div class="skeleton-input"></div></div>
+            <div class="skeleton-field"><div class="skeleton-label"></div><div class="skeleton-input"></div></div>
+          </div>
           <div class="skeleton-field"><div class="skeleton-label"></div><div class="skeleton-input"></div></div>
           <div class="skeleton-button"></div>
         </div>
